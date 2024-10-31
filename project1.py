@@ -86,7 +86,7 @@ def get_news(category: str) -> str:
     if response.status_code == 200:
         articles = data["articles"]
         headlines = "\n".join([article["title"] for article in articles[:3]])
-        return f"🌸 Here are the latest {category} news headlines:\n{headlines}"
+        return f"✮⋆˙ Here are the latest {category} news headlines:\n{headlines}"
     else:
         return f"❌ Error fetching news: {data['message']}"
 
@@ -112,7 +112,7 @@ def get_cat_img() -> str:
     
     if response.status_code == 200:
         image_urls = [image["url"] for image in data]
-        return "🐾 Here are some adorable cat images:\n" + "\n".join(image_urls)
+        return "≽^•⩊•^≼ Here are some adorable cat images:\n" + "\n".join(image_urls)
     else:
         return "❌ Error fetching cat images."
 
@@ -132,7 +132,7 @@ def handle_tool_call(tool_call):
 
 def chatbot():
     """Main logic for the chatbot interaction."""
-    print("👋 Welcome! You can ask for news, weather, or a cat image. Type 'exit' to quit.")
+    print("𖦹-Welcome-𖦹 You can ask for the news, weather, or a cat image ≽^•⩊•^≼ . OR: Type 'exit' to quit.")
     
     while True:
         user_input = input("You: ")
@@ -168,7 +168,7 @@ def chatbot():
                         "response": tool_response
                     })
                 
-                # Prepare messages for second API call for a natural response
+                # Prepare messages for the second API call for a natural response
                 messages = [
                     {
                         "role": "system",
@@ -186,13 +186,20 @@ def chatbot():
                         "content": tool_response["response"]
                     })
                 
+                # Create a variable to hold emojis
+                emojis = "✩₊˚.⋆☾⋆⁺₊✧"
                 final_response = client.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=messages
                 )
-                print(f"🤗 Assistant: {final_response.choices[0].message.content}")
+                
+                # Include emojis in the assistant's response
+                final_message = f"      ⤷ Assistant: {final_response.choices[0].message.content} {emojis}"
+                print(final_message)
             else:
-                print(f"🤗 Assistant: {assistant_message.content}")
+                # Include emojis in the assistant's response if no tool calls
+                final_message = f"    ⤷ Assistant: {assistant_message.content} {emojis}"
+                print(final_message)
 
         except Exception as e:
             print(f"❗ An error occurred: {str(e)}")
